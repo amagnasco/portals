@@ -1,0 +1,15 @@
+
+FROM ubuntu:latest
+LABEL maintainer="Alessandro G. Magnasco <amagnasco@gradcenter.cuny.edu>"
+
+RUN apt-get update && \
+    apt-get install -y sudo curl git-core gnupg locales nodejs zsh wget nano nodejs npm fonts-powerline micro mosh	 && \
+    locale-gen en_US.UTF-8 && \
+    adduser --quiet --disabled-password --shell /bin/zsh --home /home/devuser --gecos "User" azm && \
+    echo "azm:<a href="mailto://changeme">changeme</a>" | chpasswd && usermod -aG sudo azm
+
+ADD ./scripts/installthemes.sh /home/azm/installthemes.sh
+USER azm
+ENV TERM xterm
+ENV ZSH_THEME agnoster
+CMD ["zsh"]
